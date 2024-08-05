@@ -30,6 +30,11 @@ public class PruebaDvpApplication {
 						.build();
 				ticketDao.save(ticket);
 			}
+			//SE CREA UN USUARIO NO ALEATORIO PARA PRUEBAS
+			Ticket ticket = Ticket.builder().id("ID1").usuario("Usuario Inicial").creacion(new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date()))
+					.estado((int) Math.round( Math.random() ) )
+					.build();
+			ticketDao.save(ticket);
 		};
 	}
 
