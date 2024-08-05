@@ -27,7 +27,7 @@ public class TicketGraphqlController {
     }
 
     @MutationMapping
-    public Ticket guardaTicket(@Argument Ticket ticket){
+    public Ticket guardarTicket(@Argument Ticket ticket){
         System.out.println("Save");
         return service.save(ticket);
     }
