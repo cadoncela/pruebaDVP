@@ -13,12 +13,13 @@ type Ticket{
     id : String,
     usuario : String,
     estado : Int,
-    creacion : String
+    creacion : String,
+    actualizacion : String
 }
 
 input TicketRequest {
     usuario : String,
     creacion : String,
+    actualizacion : String,
     estado : Int
-
 }

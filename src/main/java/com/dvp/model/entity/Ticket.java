@@ -25,5 +25,7 @@ public class Ticket {
 
     private String creacion;
 
+    private String actualizacion;
+
     private int estado;
 }

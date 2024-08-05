@@ -24,7 +24,7 @@ public class PruebaDvpApplication {
 			for (int i=0; i<20; i++){
 				Ticket ticket = Ticket.builder()
 						.id(UUID.randomUUID().toString())
-						.usuario("Usuario" + i)
+						.usuario("Usuario_" + i)
 						.creacion(new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date()))
 						.estado((int) Math.round( Math.random() ) )
 						.build();

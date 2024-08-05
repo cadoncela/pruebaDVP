@@ -9,6 +9,8 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 import java.util.UUID;
 
@@ -37,10 +39,12 @@ public class TicketServiceImpl implements ITicketService {
     }
 
     @Override
-    //@Transactional
+    @Transactional
     public Ticket save(Ticket ticket) {
         if (ticket.getId() == null || ticket.getId().isBlank())
             ticket.setId(UUID.randomUUID().toString());
+        else
+            ticket.setActualizacion(new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date()));
         return ticketDao.save(ticket);
     }
 
