@@ -1,7 +1,10 @@
 package com.dvp.controller;
 
+import com.dvp.model.dto.TicketRequest;
 import com.dvp.model.entity.Ticket;
+import com.dvp.model.entity.Usuario;
 import com.dvp.model.service.ITicketService;
+import com.dvp.model.service.IUsuarioService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.graphql.data.method.annotation.Argument;
 import org.springframework.graphql.data.method.annotation.MutationMapping;
@@ -16,6 +19,9 @@ public class TicketGraphqlController {
     @Autowired
     ITicketService service;
 
+    @Autowired
+    IUsuarioService usuarioService;
+
     @QueryMapping
     public List<Ticket> listarTickets(){
         return service.findAll();
@@ -27,8 +33,12 @@ public class TicketGraphqlController {
     }
 
     @MutationMapping
-    public Ticket guardaTicket(@Argument Ticket ticket){
-        System.out.println("Save");
+    public Ticket guardarTicket(@Argument TicketRequest ticketRequest){
+        Usuario usuario = usuarioService.findById(ticketRequest.usuarioId());
+        Ticket ticket = new Ticket();
+        ticket.setEstado(ticketRequest.estado());
+        ticket.setUsuario(usuario);
+        ticket.setCreacion(ticketRequest.creacion());
         return service.save(ticket);
     }
 }

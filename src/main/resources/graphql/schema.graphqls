@@ -1,25 +1,32 @@
 type Mutation{
-    guardarTicket(ticket: TicketRequest): Ticket
+    guardarTicket(ticketRequest: TicketRequest): Ticket,
+    eliminarTicket(id : String) : String
 }
 
 type Query {
     listarTickets : [Ticket],
-    listarPorId(id : String) : Ticket
+    listarTicketPorId(id : String) : Ticket,
+    listarUsuarios : [Usuario],
+    listarUsuarioPorId(id : Float) : Usuario,
 }
-
-scalar Long
 
 type Ticket{
     id : String,
-    usuario : String,
     estado : Int,
     creacion : String,
-    actualizacion : String
+    actualizacion : String,
+    usuario : Usuario
+}
+
+type Usuario{
+    id : Float,
+    nombre : String,
+    actualizacion : String,
+    tickets : [Ticket]
 }
 
 input TicketRequest {
-    usuario : String,
     creacion : String,
-    actualizacion : String,
-    estado : Int
+    estado : Float,
+    usuarioId : Float
 }

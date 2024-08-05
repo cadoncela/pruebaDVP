@@ -15,6 +15,8 @@ query ListarTickets { listarTickets { id usuario estado creacion } }
 query ListarTickets {
 listarPorId(id: "ID1") { id usuario estado creacion actualizacion }}
 
+mutation crearTicket{ guardarTicket(ticketRequest:{creacion: "2024-08-04 21:45:24", estado: 1, usuarioId: 1}){creacion, usuario{nombre}}}
+
 ## Contributing
 
 Pull requests are welcome. For major changes, please open an issue first
