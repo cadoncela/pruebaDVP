@@ -1,7 +1,10 @@
 package com.dvp.controller;
 
+import com.dvp.model.dto.TicketRequest;
 import com.dvp.model.entity.Ticket;
+import com.dvp.model.entity.Usuario;
 import com.dvp.model.service.ITicketService;
+import com.dvp.model.service.IUsuarioService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
 import org.springframework.data.domain.Page;
@@ -21,6 +24,9 @@ public class TicketRestController {
 
     @Autowired
     ITicketService service;
+
+    @Autowired
+    IUsuarioService usuarioService;
 
     @GetMapping("/tickets/{id}")
     @ResponseStatus(HttpStatus.OK)
@@ -54,10 +60,15 @@ public class TicketRestController {
 
     @PostMapping("/tickets")
     @ResponseStatus(HttpStatus.CREATED)
-    public ResponseEntity<?>  crear(@RequestBody Ticket ticket) {
-        Ticket t = null;
+    public ResponseEntity<?>  crear(@RequestBody TicketRequest ticketRequest) {
+        Ticket t= null;
         Map<String, Object> response = new HashMap<>();
         try {
+            Usuario usuario = usuarioService.findById(ticketRequest.usuarioId());
+            Ticket ticket = new Ticket();
+            ticket.setEstado(ticketRequest.estado());
+            ticket.setUsuario(usuario);
+            ticket.setCreacion(ticketRequest.creacion());
             t = service.save(ticket);
         } catch (DataAccessException e) {
             response.put("mensaje", "Error al realizar el insert");
@@ -70,7 +81,8 @@ public class TicketRestController {
     }
 
     @PutMapping("/tickets/{id}")
-    public ResponseEntity<?> update(@RequestBody Ticket t, @PathVariable String id) {
+    public ResponseEntity<?> update(@RequestBody TicketRequest ticketRequest, @PathVariable String id) {
+
         Ticket ticketActual = service.findById(id);
         Ticket ticketUpdated = null;
         Map<String, Object> response = new HashMap<>();
@@ -81,9 +93,10 @@ public class TicketRestController {
             return new ResponseEntity<Map<String, Object>>(response, HttpStatus.NOT_FOUND);
         }
         try {
-            ticketActual.setUsuario(t.getUsuario());
-            ticketActual.setCreacion(t.getCreacion());
-            ticketActual.setEstado(t.getEstado());
+            Usuario usuario = usuarioService.findById(ticketRequest.usuarioId());
+            ticketActual.setUsuario(usuario);
+            ticketActual.setCreacion(ticketRequest.creacion());
+            ticketActual.setEstado(ticketRequest.estado());
             ticketUpdated = service.save(ticketActual);
         } catch (DataAccessException e) {
             response.put("mensaje", "Error al realizar la actualización");
