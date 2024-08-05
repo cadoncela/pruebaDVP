@@ -1,0 +1,24 @@
+type Mutation{
+    guardarTicket(ticket: TicketRequest): Ticket
+}
+
+type Query {
+    listarTickets : [Ticket],
+    listarPorId(id : String) : Ticket
+}
+
+scalar Long
+
+type Ticket{
+    id : String,
+    usuario : String,
+    estado : Int,
+    creacion : String
+}
+
+input TicketRequest {
+    usuario : String,
+    creacion : String,
+    estado : Int
+
+}
